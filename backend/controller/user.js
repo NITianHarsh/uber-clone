@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import userModel from "../models/user.js";
 import createUser from "../services/user.js";
 
-const registerUser = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
   try {
     // Validate request
     const errors = validationResult(req);
@@ -39,4 +39,36 @@ const registerUser = async (req, res, next) => {
   }
 };
 
-export default registerUser;
+export const loginUser = async (req, res, next) => {
+  try {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    // Check if the email exists
+    const user = await userModel.findOne({ email }).select("+password"); // humne schema me passowrd select off kiya tha, so agar direcly findOne krenge to sirf Email ayega, so we give additional ki password bhi leke aao
+    if (!user) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    // Compare passwords
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    // Generate JWT Token
+    const token = user.generateAuthToken();
+
+    // Send response
+    res.status(200).json({ token, user });
+    console.log("User Logged In");
+    
+  } catch (error) {
+    next(error); // Pass error to Express error-handling middleware
+  }
+};
