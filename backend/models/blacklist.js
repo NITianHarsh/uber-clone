@@ -12,5 +12,5 @@ const blacklistSchema = new mongoose.Schema({
     expires: 86400, // 24hr expires
   },
 });
-const blacklist = mongoose.model("blacklist", blacklistSchema);
-export default blacklist;
+const blacklistModel = mongoose.model("blacklist", blacklistSchema);
+export default blacklistModel;
