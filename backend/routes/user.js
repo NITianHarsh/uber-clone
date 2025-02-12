@@ -4,12 +4,13 @@ import {
   loginUser,
   getUserProfile,
   logoutUser,
-} from "../controller/user.js"; // Ensure correct import
+} from "../controller/user.js";
 import { body } from "express-validator";
 import { authUser } from "../middlewares/auth.js";
 
 const userRouter = express.Router();
 
+// Register User route
 userRouter.post(
   "/register",
   [
@@ -23,7 +24,7 @@ userRouter.post(
   ],
   registerUser
 );
-
+// Login User route
 userRouter.post(
   "/login",
   [
@@ -34,7 +35,7 @@ userRouter.post(
   ],
   loginUser
 );
-
 userRouter.get("/profile", authUser, getUserProfile);
 userRouter.get("/logout", authUser, logoutUser);
+
 export default userRouter;
