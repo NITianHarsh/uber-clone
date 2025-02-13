@@ -1,41 +1,55 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import axios from "axios";
-import { UserDataContext } from "../context/UserContext";
+import { UserDataContext } from "../../context/UserContext";
 
 const UserSignup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(UserDataContext);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     const newUser = {
       fullname: {
         firstname: firstName,
         lastname: lastName,
       },
-      email: email,
-      password: password,
+      email,
+      password,
     };
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/users/register`,
-      newUser
-    );
-    if (response.status === 201) {
-      const data = response.data;
-      setUser(data.user);
-      localStorage.setItem('token', data.token)
-      navigate("/home");
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/register`,
+        newUser
+      );
+
+      if (response.status === 201) {
+        const data = response.data;
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        navigate("/home");
+
+        // Clear fields only on success
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Signup failed. Try again.");
+    } finally {
+      setLoading(false);
     }
-    setEmail("");
-    setPassword("");
-    setFirstName("");
-    setLastName("");
   };
 
   return (
@@ -46,6 +60,7 @@ const UserSignup = () => {
           className="w-16 "
           src="http://pluspng.com/img-png/uber-logo-vector-png-uber-icon-png-50-px-1600.png"
         />
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <form
           onSubmit={(e) => {
             submitHandler(e);
@@ -96,12 +111,16 @@ const UserSignup = () => {
               setPassword(e.target.value);
             }}
           />
-          <button className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full">
-            Create Account
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full"
+          >
+            {loading ? "Creating..." : "Create an Account"}
           </button>
           <p className="text-center">
             Already have a account?{" "}
-            <Link to="/login" className="text-blue-600">
+            <Link to="/user/login" className="text-blue-600">
               Login here
             </Link>
           </p>
