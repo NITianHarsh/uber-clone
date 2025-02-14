@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import cors from "cors";
 import express from "express";
 import connectToDb from "./Db/db.js";
@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.js";
 import captainRouter from "./routes/captain.js";
 
+dotenv.config();
 const app = express();
 
 connectToDb();

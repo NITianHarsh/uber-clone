@@ -4,12 +4,13 @@ import {
   loginCaptain,
   getCaptainProfile,
   logoutCaptain,
-} from "../controller/captain.js"; // Ensure correct import
+} from "../controller/captain.js";
 import { body } from "express-validator";
 import { authCaptain } from "../middlewares/auth.js";
 
 const captainRouter = express.Router();
 
+// Register Captain route
 captainRouter.post(
   "/register",
   [
@@ -35,7 +36,7 @@ captainRouter.post(
   ],
   registerCaptain
 );
-
+// Login Captain route
 captainRouter.post(
   "/login",
   [
@@ -46,7 +47,7 @@ captainRouter.post(
   ],
   loginCaptain
 );
-
 captainRouter.get("/profile", authCaptain, getCaptainProfile);
 captainRouter.get("/logout", authCaptain, logoutCaptain);
+
 export default captainRouter;
