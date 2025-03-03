@@ -5,8 +5,8 @@ import connectToDb from "./Db/db.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.js";
 import mapsRouter from "./routes/maps.js";
+import ridesRouter from "./routes/rides.js";
 import captainRouter from "./routes/captain.js";
-
 dotenv.config();
 const app = express();
 
@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use("/users", userRouter);
 app.use("/captains", captainRouter);
 app.use("/maps", mapsRouter);
+app.use("/rides", ridesRouter);
 
 app.get("/", (req, res) => {
   res.send("Hey Its working !");

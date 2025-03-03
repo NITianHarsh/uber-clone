@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { CaptainDataContext } from "../context/CaptainContext";
 
 const CaptainSignup = () => {
@@ -104,44 +104,46 @@ const CaptainSignup = () => {
           </div>
           <h3 className="text-base font-medium mb-2">Vehicle Details</h3>
           <div className="flex gap-2 mb-3">
-          <input
-            required
-            className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
-            type="text"
-            placeholder="Vehicle Color"
-            value={vehicleColor}
-            onChange={(e) => setVehicleColor(e.target.value)}
-          />
-          <input
-            required
-            className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
-            type="text"
-            placeholder="Vehicle Plate"
-            value={vehiclePlate}
-            onChange={(e) => setVehiclePlate(e.target.value)}
-          /> </div>
+            <input
+              required
+              className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
+              type="text"
+              placeholder="Vehicle Color"
+              value={vehicleColor}
+              onChange={(e) => setVehicleColor(e.target.value)}
+            />
+            <input
+              required
+              className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
+              type="text"
+              placeholder="Vehicle Plate"
+              value={vehiclePlate}
+              onChange={(e) => setVehiclePlate(e.target.value)}
+            />{" "}
+          </div>
           <div className="flex gap-2 mb-5">
-          <input
-            required
-            className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
-            type="number"
-            min="1"
-            placeholder="Vehicle Capacity"
-            value={vehicleCapacity}
-            onChange={(e) =>
-              setVehicleCapacity(Math.max(1, Number(e.target.value)))
-            }
-          />
-          <select
-            required
-            className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base"
-            value={vehicleType}
-            onChange={(e) => setVehicleType(e.target.value)}
-          >
-            <option value="car">Car</option>
-            <option value="auto">Auto</option>
-            <option value="motorcycle">Motorcycle</option>
-          </select> </div>
+            <input
+              required
+              className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
+              type="number"
+              min="1"
+              placeholder="Vehicle Capacity"
+              value={vehicleCapacity}
+              onChange={(e) =>
+                setVehicleCapacity(Math.max(1, Number(e.target.value)))
+              }
+            />
+            <select
+              required
+              className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base"
+              value={vehicleType}
+              onChange={(e) => setVehicleType(e.target.value)}
+            >
+              <option value="car">Car</option>
+              <option value="auto">Auto</option>
+              <option value="motorcycle">Motorcycle</option>
+            </select>{" "}
+          </div>
           <h3 className="text-base font-medium mb-2">
             What's our Captain's email
           </h3>

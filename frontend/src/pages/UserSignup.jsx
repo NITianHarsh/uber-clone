@@ -1,15 +1,15 @@
+import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { UserDataContext } from "../context/UserContext";
 
 const UserSignup = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [loading, setLoading] = useState(false);
   const { setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
 
