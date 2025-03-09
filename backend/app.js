@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import cors from "cors";
 import express from "express";
@@ -20,7 +21,8 @@ app.use(cookieParser());
 
 app.use("/users", userRouter);
 app.use("/captains", captainRouter);
-
+app.use("/maps", mapsRouter);
+app.use("/rides", ridesRouter);
 
 app.get("/", (req, res) => {
   res.send("Hey Its working !");

@@ -1,7 +1,7 @@
+import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CaptainDataContext } from "../context/CaptainContext";
-import axios from "axios";
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ const CaptainLogin = () => {
         const data = response.data;
         setCaptain(data.captain);
         localStorage.setItem("token", data.token);
-        navigate("/captainhome");
+        navigate("/captain/home");
         setEmail("");
         setPassword("");
       }

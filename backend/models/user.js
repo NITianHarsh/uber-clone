@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
     },
     lastname: {
       type: String,
-      minLength: [3, "Last name must be at least 3 characters"],
       default: "",
       trim: true,
     },
@@ -28,7 +27,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
-    select: false, // taki ye feild user ke pass na jaye
+    select: false, // Prevents this field from being returned in queries
   },
   socketID: {
     type: String,
