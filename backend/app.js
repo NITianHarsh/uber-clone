@@ -1,4 +1,4 @@
-import cors from "cors";
+
 import dotenv from "dotenv";
 import cors from "cors";
 import express from "express";
@@ -6,7 +6,8 @@ import connectToDb from "./Db/db.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.js";
 import captainRouter from "./routes/captain.js";
-
+import mapsRouter from "./routes/maps.js";
+import ridesRouter from "./routes/rides.js";
 dotenv.config();
 const app = express();
 

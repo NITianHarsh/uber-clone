@@ -4,18 +4,22 @@ import createCaptain from "../services/captain.js";
 import blacklistModel from "../models/blacklist.js";
 
 export const registerCaptain = async (req, res, next) => {
+  
   try {
     // Validate request
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
+    console.log("I am here", req.body);
+    // const errors = validationResult(req);
+    // console.log(errors);
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
+   
     const { fullname, email, password, vehicle } = req.body;
-
+console.log(fullname, email, password, vehicle);
     // Check if the email already exists
     const existingCaptain = await captainModel.findOne({ email });
     if (existingCaptain) {
+
       return res.status(400).json({ error: "Email already registered" });
     }
 
@@ -31,7 +35,7 @@ export const registerCaptain = async (req, res, next) => {
       color : vehicle.color,
       plate : vehicle.plate,
       capacity : vehicle.capacity,
-      vehicleType : vehicle.vehicleType,
+      vehicleType : vehicle.type,
     });
 
     // Generate authentication token

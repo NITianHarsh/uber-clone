@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Change this to match your frontend origin
+    origin: ["http://localhost:5173","*"], // Change this to match your frontend origin
     methods: ["GET", "POST"],
   },
 });
@@ -17,7 +17,7 @@ app.set("io", io);
 
 // Socket.IO Connection
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+console.log("A user connected:", socket.id);
 
   // Listen for a message event from the client
   socket.on("message", (data) => {
