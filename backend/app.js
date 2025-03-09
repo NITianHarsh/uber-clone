@@ -12,7 +12,10 @@ const app = express();
 
 connectToDb();
 
-app.use(cors()); // for now, sari websites se accept krenge, later only a specific domain
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true, // Allow cookies if needed
+})); // for now, sari websites se accept krenge, later only a specific domain
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
