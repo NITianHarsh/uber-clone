@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const rideSchema = new mongoose.Schema({
-  userID: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User", // Reference to the User model
     required: true,
   },
   captain: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Captain,
+    ref: "Captain",
   },
   pickup: {
     type: String,

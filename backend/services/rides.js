@@ -1,12 +1,20 @@
-import rideModel from "../models/ride.js";
-import { getDistanceAndTime } from "./maps.js";
 import crypto from "crypto";
-async function getFare(pickup, destination) {
-  if (!pickup || !destination) {
-    throw new Error("Pickup and Destination are required");
+import rideModel from "../models/ride.js";
+import { getDistanceAndTime } from "../services/maps.js";
+
+export async function getFare(pickup, destination) {
+  const distanceData = await getDistanceAndTime(pickup, destination);
+
+  if (!distanceData || !distanceData.distance) {
+    throw new Error("Failed to get distance information");
   }
 
-  const { distance, time } = await getDistanceAndTime(pickup, destination);
+  // Convert "12 km" to a numeric value (e.g., 12)
+  const distanceInKm = parseFloat(distanceData.distance.replace(" km", ""));
+
+  if (isNaN(distanceInKm)) {
+    throw new Error("Invalid distance format from API");
+  }
 
   const baseFare = {
     car: 50,
@@ -15,15 +23,14 @@ async function getFare(pickup, destination) {
   };
   const rates = {
     car: 10, // per km
-    auto: 7, // per km
+    auto: 8, // per km
     motorcycle: 5, // per km
   };
 
   return {
-    carFare: baseFare.car + (distance.value / 1000) * rates.car,
-    autoFare: baseFare.auto + (distance.value / 1000) * rates.auto,
-    motorCycleFare:
-      baseFare.motorcycle + (distance.value / 1000) * rates.motorcycle,
+    car: baseFare.car + distanceInKm * rates.car,
+    auto: baseFare.auto + distanceInKm * rates.auto,
+    motorCycle: baseFare.motorcycle + distanceInKm * rates.motorcycle,
   };
 }
 
@@ -34,7 +41,12 @@ function getOtp(num) {
   return otp;
 }
 
-const createRide = async ({ userId, pickup, destination, vehicleType }) => {
+export const createRide = async ({
+  userId,
+  pickup,
+  destination,
+  vehicleType,
+}) => {
   if (!userId || !pickup || !destination || !vehicleType) {
     throw new Error("All fields are required");
   }
@@ -46,10 +58,8 @@ const createRide = async ({ userId, pickup, destination, vehicleType }) => {
     pickup,
     destination,
     otp: getOtp(6),
-    fare: fare[vehicleType],
+    fare: fare[vehicleType], // Corrected fare assignment
   });
 
   return ride;
 };
-
-export default createRide;

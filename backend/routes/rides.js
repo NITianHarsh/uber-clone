@@ -1,7 +1,7 @@
 import express from "express";
-import { body } from "express-validator";
-import { makeRide } from "../controller/rides";
-import { authUser } from "../middlewares/auth";
+import { body, query } from "express-validator";
+import { getsFare, makeRide } from "../controller/rides.js";
+import { authUser } from "../middlewares/auth.js";
 
 const ridesRouter = express.Router();
 
@@ -12,17 +12,25 @@ ridesRouter.post(
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid pickup address"),
-  body
-    .apply("destination")
+  body("destination")
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid destination address"),
-  body
-    .apply("vehicleType")
+  body("vehicleType")
     .isString()
     .isIn(["auto", "car", "motorcycle"])
     .withMessage("Invalid vehicle type"),
   makeRide
+);
+
+ridesRouter.get(
+  "/get-fare",
+  authUser,
+  query("pickup")
+    .isString()
+    .isLength({ min: 3 })
+    .withMessage("Invalid pickup address"),
+  getsFare
 );
 
 export default ridesRouter;

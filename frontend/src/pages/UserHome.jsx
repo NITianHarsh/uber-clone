@@ -59,39 +59,27 @@ const UserHome = () => {
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
-        {
-          params: { input: e.target.value },
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestion`, {
+        params: { input: e.target.value },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       setPickupSuggestions(response.data);
-    } catch {
-      // handle error
-    }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }    
   };
-
   const handleDestinationChange = async (e) => {
     setDestination(e.target.value);
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
-        {
-          params: { input: e.target.value },
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setDestinationSuggestions(response.data);
-    } catch {
-      // handle error
-    }
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestion`, {
+        params: { input: e.target.value },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setPickupSuggestions(response.data);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }    
   };
-
   const submitHandler = (e) => {
     e.preventDefault();
   };
@@ -120,7 +108,6 @@ const UserHome = () => {
     },
     [panelOpen]
   );
-
   useGSAP(
     function () {
       if (vehiclePanel) {
@@ -135,7 +122,6 @@ const UserHome = () => {
     },
     [vehiclePanel]
   );
-
   useGSAP(
     function () {
       if (confirmRidePanel) {
@@ -150,7 +136,6 @@ const UserHome = () => {
     },
     [confirmRidePanel]
   );
-
   useGSAP(
     function () {
       if (vehicleFound) {
@@ -165,7 +150,6 @@ const UserHome = () => {
     },
     [vehicleFound]
   );
-
   useGSAP(
     function () {
       if (waitingForDriver) {

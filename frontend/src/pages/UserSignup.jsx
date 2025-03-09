@@ -37,7 +37,7 @@ const UserSignup = () => {
         const data = response.data;
         setUser(data.user);
         localStorage.setItem("token", data.token);
-        navigate("/home");
+        navigate("/user/home");
 
         // Clear fields only on success
         setFirstName("");
@@ -79,7 +79,6 @@ const UserSignup = () => {
               }}
             />
             <input
-              required
               className="bg-[#eeeeee]  rounded px-4 py-2 border w-1/2 text-lg placeholder:text-sm"
               type="text"
               placeholder="Last Name"

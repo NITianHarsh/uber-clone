@@ -31,10 +31,10 @@ export const registerUser = async (req, res, next) => {
     });
 
     // Generate authentication token
-    const token = user.generateAuthToken();
+    //const token = user.generateAuthToken();
 
     // Send response
-    res.status(201).json({ token, user });
+    res.status(201).json({ user });  // { token, user }
     console.log("User registered");
   } catch (error) {
     next(error); // Pass the error to Express error handler
@@ -82,7 +82,7 @@ export const getUserProfile = async (req, res, next) => {
 };
 
 export const logoutUser = async (req, res, next) => {
-  res.clearCookie("token");
+  res.clearCookie("token"); // to securely remove and clear
   const token = req.cookies.token || req.headers.authorization.split(" ")[1];
   await blacklistModel.create({ token });
   res.status(200).json({ message: "Logged out" });
