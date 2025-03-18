@@ -1,62 +1,94 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import axios from "axios";
+import { CaptainDataContext } from "../context/CaptainContext.jsx";
 
-const ConfirmRide = (props) => {
+const CaptainDetails = () => {
+  const { captain, setCaptain, isLoading, setIsLoading, error, setError } =
+    useContext(CaptainDataContext);
+
+  useEffect(() => {
+    const fetchCaptainData = async () => {
+      setIsLoading(true);
+
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/captains/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setCaptain(response.data);
+      } catch (err) {
+        setError("Failed to load captain data.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCaptainData();
+  }, [setCaptain, setIsLoading, setError]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div>
-      <h5
-        className="p-1 text-center w-[93%] absolute top-0"
-        onClick={() => {
-          props.setConfirmRidePanel(false);
-        }}
-      >
-        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
-      </h5>
-      <h3 className="text-2xl font-semibold mb-5">Confirm your Ride</h3>
-
-      <div className="flex gap-2 justify-between flex-col items-center">
-        <img
-          className="h-20"
-          src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg"
-          alt=""
-        />
-        <div className="w-full mt-5">
-          <div className="flex items-center gap-5 p-3 border-b-2">
-            <i className="ri-map-pin-user-fill"></i>
-            <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">{props.pickup}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-5 p-3 border-b-2">
-            <i className="text-lg ri-map-pin-2-fill"></i>
-            <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">{props.destination}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-5 p-3">
-            <i className="ri-currency-line"></i>
-            <div>
-              <h3 className="text-lg font-medium">
-                ₹{props.fare[props.vehicleType]}
-              </h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
-            </div>
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center justify-start gap-3">
+          <img
+            className="h-10 w-10 rounded-full object-cover"
+            src={
+              captain?.profilePicture ||
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
+            }
+            alt="Captain Profile"
+          />
+          <h4 className="text-lg font-medium capitalize">
+            {captain?.fullname
+              ? `${captain.fullname.firstname ?? ""} ${
+                  captain.fullname.lastname ?? ""
+                }`.trim()
+              : "Captain"}
+          </h4>
         </div>
-        <button
-          onClick={() => {
-            props.setVehicleFound(true);
-            props.setConfirmRidePanel(false);
-            props.createRide();
-          }}
-          className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
-        >
-          Confirm
-        </button>
+        <div>
+          <h4 className="text-xl font-semibold">
+            ₹{captain?.earnings?.toFixed(2) ?? "0.00"}
+          </h4>
+          <p className="text-sm text-gray-600">Earned</p>
+        </div>
+      </div>
+
+      <div className="flex p-3 mt-8 bg-gray-100 rounded-xl justify-center gap-5 items-start">
+        <div className="text-center">
+          <i className="text-3xl mb-2 font-thin ri-timer-2-line"></i>
+          <h5 className="text-lg font-medium">
+            {captain?.hoursOnline ?? "0.0"}
+          </h5>
+          <p className="text-sm text-gray-600">Hours Online</p>
+        </div>
+
+        <div className="text-center">
+          <i className="text-3xl mb-2 font-thin ri-speed-up-line"></i>
+          <h5 className="text-lg font-medium">
+            {captain?.tripsCompleted ?? "0"}
+          </h5>
+          <p className="text-sm text-gray-600">Trips Completed</p>
+        </div>
+
+        <div className="text-center">
+          <i className="text-3xl mb-2 font-thin ri-booklet-line"></i>
+          <h5 className="text-lg font-medium">{captain?.rating ?? "0.0"}</h5>
+          <p className="text-sm text-gray-600">Ratings</p>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ConfirmRide;
+export default CaptainDetails;

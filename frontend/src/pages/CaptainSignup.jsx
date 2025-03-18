@@ -1,19 +1,20 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CaptainDataContext } from "../context/CaptainContext";
+import { CaptainDataContext } from "../context/CaptainContext.jsx";
 
 const CaptainSignup = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [vehicleColor, setVehicleColor] = useState("");
-  const [vehiclePlate, setVehiclePlate] = useState("");
-  const [vehicleCapacity, setVehicleCapacity] = useState(1);
-  const [vehicleType, setVehicleType] = useState("car");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [password, setPassword] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [vehiclePlate, setVehiclePlate] = useState("");
+  const [vehicleColor, setVehicleColor] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
+  const [vehicleCapacity, setVehicleCapacity] = useState("");
+  
   const { setCaptain } = useContext(CaptainDataContext);
   const navigate = useNavigate();
 
@@ -28,25 +29,28 @@ const CaptainSignup = () => {
       return;
     }
 
+    const fullname = {
+      firstname: firstName,
+      ...(lastName && { lastname: lastName }),
+    };
+
     const newCaptain = {
-      fullname: {
-        firstname: firstName,
-        lastname: lastName,
-      },
+      fullname,
       email,
       password,
       vehicle: {
         color: vehicleColor,
         plate: vehiclePlate,
         capacity: vehicleCapacity,
-        type: vehicleType,
+        vehicleType: vehicleType,
       },
     };
 
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/captains/register`,
-        newCaptain
+        newCaptain,
+        { headers: { "Content-Type": "application/json" } }
       );
 
       if (response.status === 201) {
@@ -77,7 +81,7 @@ const CaptainSignup = () => {
         <img
           className="w-16 mb-3"
           src="https://logodix.com/logo/81070.png"
-          alt="Logo"
+          alt="Uber-Logo"
         />
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={submitHandler}>
@@ -94,7 +98,6 @@ const CaptainSignup = () => {
               onChange={(e) => setFirstName(e.target.value)}
             />
             <input
-              required
               className="bg-[#eeeeee] rounded px-4 py-2 border w-1/2 text-base placeholder:text-sm"
               type="text"
               placeholder="Last Name"
@@ -116,7 +119,7 @@ const CaptainSignup = () => {
               required
               className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base placeholder:text-sm"
               type="text"
-              placeholder="Vehicle Plate"
+              placeholder="Vehicle Plate No. XX-XX-XXXX"
               value={vehiclePlate}
               onChange={(e) => setVehiclePlate(e.target.value)}
             />{" "}
@@ -130,15 +133,17 @@ const CaptainSignup = () => {
               placeholder="Vehicle Capacity"
               value={vehicleCapacity}
               onChange={(e) =>
-                setVehicleCapacity(Math.max(1, Number(e.target.value)))
+                setVehicleCapacity(Number(e.target.value))
               }
             />
             <select
               required
               className="bg-[#eeeeee] rounded px-4 py-2 border w-full text-base"
               value={vehicleType}
+              defaultValue=""
               onChange={(e) => setVehicleType(e.target.value)}
             >
+              <option value="" disabled>Select a Vehicle</option>
               <option value="car">Car</option>
               <option value="auto">Auto</option>
               <option value="motorcycle">Motorcycle</option>
@@ -167,7 +172,7 @@ const CaptainSignup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full"
+            className="bg-[#111] text-white cursor-pointer font-semibold mb-3 rounded px-4 py-2 w-full"
           >
             {loading ? "Creating..." : "Create an Account"}
           </button>

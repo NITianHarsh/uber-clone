@@ -30,6 +30,10 @@ ridesRouter.get(
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid pickup address"),
+  query("destination")
+    .isString()
+    .isLength({ min: 3 })
+    .withMessage("Invalid destination address"),
   getsFare
 );
 

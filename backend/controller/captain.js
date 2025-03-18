@@ -4,22 +4,18 @@ import createCaptain from "../services/captain.js";
 import blacklistModel from "../models/blacklist.js";
 
 export const registerCaptain = async (req, res, next) => {
-  
   try {
     // Validate request
-    console.log("I am here", req.body);
-    // const errors = validationResult(req);
-    // console.log(errors);
-    // if (!errors.isEmpty()) {
-    //   return res.status(400).json({ errors: errors.array() });
-    // }
-   
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { fullname, email, password, vehicle } = req.body;
-console.log(fullname, email, password, vehicle);
+
     // Check if the email already exists
     const existingCaptain = await captainModel.findOne({ email });
     if (existingCaptain) {
-
       return res.status(400).json({ error: "Email already registered" });
     }
 
@@ -32,18 +28,16 @@ console.log(fullname, email, password, vehicle);
       lastname: fullname.lastname,
       email,
       password: hashedPassword,
-      color : vehicle.color,
-      plate : vehicle.plate,
-      capacity : vehicle.capacity,
-      vehicleType : vehicle.type,
+      color: vehicle.color,
+      plate: vehicle.plate,
+      capacity: vehicle.capacity,
+      vehicleType: vehicle.vehicleType,
     });
-
     // Generate authentication token
     const token = captain.generateAuthToken();
 
     // Send response
     res.status(201).json({ token, captain });
-    console.log("captain registered");
   } catch (error) {
     next(error); // Pass the error to Express error handler
   }
@@ -77,7 +71,6 @@ export const loginCaptain = async (req, res, next) => {
 
     // Send response
     res.status(200).json({ token, captain });
-    console.log("captain Logged In");
   } catch (error) {
     next(error); // Pass error to Express error-handling middleware
   }

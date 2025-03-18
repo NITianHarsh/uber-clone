@@ -9,15 +9,16 @@ const VehiclePanel = (props) => {
           props.setVehiclePanel(false);
         }}
       >
-        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
+        <i className="text-3xl text-gray-500 cursor-pointer ri-arrow-down-wide-line"></i>
       </h5>
       <h3 className="text-2xl font-semibold mb-5">Choose a Vehicle</h3>
+      
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.selectVehicle("car");
         }}
-        className="flex border-2 active:border-black  mb-2 rounded-xl w-full p-3  items-center justify-between"
+        className="flex border-2 active:border-black  mb-2 rounded-xl w-full p-3 cursor-pointer items-center justify-between"
       >
         <img
           className="h-10"
@@ -38,12 +39,13 @@ const VehiclePanel = (props) => {
         </div>
         <h2 className="text-lg font-semibold">₹{props.fare.car}</h2>
       </div>
+      
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
-          props.selectVehicle("moto");
+          props.selectVehicle("motorcycle");
         }}
-        className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3  items-center justify-between"
+        className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 cursor-pointer items-center justify-between"
       >
         <img
           className="h-10"
@@ -52,7 +54,7 @@ const VehiclePanel = (props) => {
         />
         <div className="-ml-2 w-1/2">
           <h4 className="font-medium text-base">
-            Moto{" "}
+            Motorcycle{" "}
             <span>
               <i className="ri-user-3-fill"></i>1
             </span>
@@ -62,14 +64,15 @@ const VehiclePanel = (props) => {
             Affordable motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹{props.fare.moto}</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.motorCycle}</h2>
       </div>
+      
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.selectVehicle("auto");
         }}
-        className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3  items-center justify-between"
+        className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 cursor-pointer items-center justify-between"
       >
         <img
           className="h-10"

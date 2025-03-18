@@ -7,6 +7,7 @@ const Start = () => {
         <img
           className="w-16 ml-8"
           src="http://pluspng.com/img-png/uber-logo-vector-png-uber-icon-png-50-px-1600.png"
+          alt="UBER STARTING PAGE IMAGE"
         />
         <div className="bg-white pb-7 py-4 px-4">
           <h2 className="text-3xl font-bold">Get Started with Uber</h2>

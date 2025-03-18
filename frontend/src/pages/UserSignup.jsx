@@ -39,7 +39,6 @@ const UserSignup = () => {
         localStorage.setItem("token", data.token);
         navigate("/user/home");
 
-        // Clear fields only on success
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -59,6 +58,7 @@ const UserSignup = () => {
         <img
           className="w-16 "
           src="http://pluspng.com/img-png/uber-logo-vector-png-uber-icon-png-50-px-1600.png"
+          alt="Uber-logo"
         />
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form

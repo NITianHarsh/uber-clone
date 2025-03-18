@@ -29,13 +29,11 @@ export const registerUser = async (req, res, next) => {
       email,
       password: hashedPassword,
     });
-
     // Generate authentication token
-    //const token = user.generateAuthToken();
+    const token = user.generateAuthToken();
 
     // Send response
-    res.status(201).json({ user });  // { token, user }
-    console.log("User registered");
+    res.status(201).json({ token, user });
   } catch (error) {
     next(error); // Pass the error to Express error handler
   }
@@ -69,7 +67,6 @@ export const loginUser = async (req, res, next) => {
 
     // Send response
     res.status(200).json({ token, user });
-    console.log("User Logged In");
   } catch (error) {
     next(error); // Pass error to Express error-handling middleware
   }

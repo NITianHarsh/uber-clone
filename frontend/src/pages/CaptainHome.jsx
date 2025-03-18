@@ -6,7 +6,7 @@ import RidePopUp from "../components/RidePopUp";
 import { SocketContext } from "../context/SocketContext";
 import CaptainDetails from "../components/CaptainDetails";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
-import CaptainDataContext from "../context/CaptainContext.jsx";
+import { CaptainDataContext } from "../context/CaptainContext";
 import { useRef, useState, useEffect, useContext } from "react";
 
 const CaptainHome = () => {
@@ -20,86 +20,72 @@ const CaptainHome = () => {
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
 
-  useEffect(() => {
-    socket.emit("join", {
-      userId: captain._id,
-      userType: "captain",
-    });
-    const updateLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          socket.emit("update-location-captain", {
-            userId: captain._id,
-            location: {
-              ltd: position.coords.latitude,
-              lng: position.coords.longitude,
-            },
-          });
-        });
-      }
-    };
+  //  useEffect(() => {
+  //   socket.emit("join", {userId: captain._id, userType: "captain", })
+  // }, [captain]);
+  //   const updateLocation = () => {
+  //     if (navigator.geolocation) {
+  //       navigator.geolocation.getCurrentPosition((position) => {
+  //         socket.emit("update-location-captain", {
+  //           userId: captain._id,
+  //           location: {
+  //             ltd: position.coords.latitude,
+  //             lng: position.coords.longitude,
+  //           },
+  //         });
+  //       });
+  //     }
+  //   };
 
-    const locationInterval = setInterval(updateLocation, 10000);
-    updateLocation();
+  //   const locationInterval = setInterval(updateLocation, 10000);
+  //   updateLocation();
 
-    // return () => clearInterval(locationInterval)
-  }, []);
+  //   // return () => clearInterval(locationInterval)
+  // }, []);
 
-  socket.on("new-ride", (data) => {
-    setRide(data);
-    setRidePopupPanel(true);
-  });
+  // socket.on("new-ride", (data) => {
+  //   setRide(data);
+  //   setRidePopupPanel(true);
+  // });
 
   async function confirmRide() {
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
-      {
-        rideId: ride._id,
-        captainId: captain._id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+        {
+          rideId: ride._id,
+          captainId: captain._id,
         },
-      }
-    );
-
-    setRidePopupPanel(false);
-    setConfirmRidePopupPanel(true);
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+  
+      setRidePopupPanel(false);
+      setConfirmRidePopupPanel(true);
+    } catch (error) {
+      console.error("Failed to confirm ride:", error.response?.data || error);
+    }
   }
-
-  useGSAP(
-    function () {
-      if (ridePopupPanel) {
-        gsap.to(ridePopupPanelRef.current, {
-          transform: "translateY(0)",
-        });
-      } else {
-        gsap.to(ridePopupPanelRef.current, {
-          transform: "translateY(100%)",
-        });
-      }
-    },
-    [ridePopupPanel]
-  );
-
-  useGSAP(
-    function () {
-      if (confirmRidePopupPanel) {
-        gsap.to(confirmRidePopupPanelRef.current, {
-          transform: "translateY(0)",
-        });
-      } else {
-        gsap.to(confirmRidePopupPanelRef.current, {
-          transform: "translateY(100%)",
-        });
-      }
-    },
-    [confirmRidePopupPanel]
-  );
+  
+  useGSAP(() => {
+    gsap.to(ridePopupPanelRef.current, {
+      y: ridePopupPanel ? 0 : "100%",
+      duration: 0.5,
+    });
+  }, [ridePopupPanel]);
+  useGSAP(() => {
+    gsap.to(confirmRidePopupPanelRef.current, {
+      y: confirmRidePopupPanel ? 0 : "100%",
+      duration: 0.5,
+    });
+  }, [confirmRidePopupPanel]);
+  
 
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
       <div className="fixed p-6 top-0 flex items-center justify-between w-screen">
         <img
           className="w-16"

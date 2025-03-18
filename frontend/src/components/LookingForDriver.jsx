@@ -9,7 +9,7 @@ const LookingForDriver = (props) => {
           props.setVehicleFound(false);
         }}
       >
-        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
+        <i className="text-3xl text-gray-500 cursor-pointer ri-arrow-down-wide-line"></i>
       </h5>
       <h3 className="text-2xl font-semibold mb-5">Looking for a Driver</h3>
 
@@ -40,7 +40,7 @@ const LookingForDriver = (props) => {
               <h3 className="text-lg font-medium">
                 ₹{props.fare[props.vehicleType]}{" "}
               </h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
+              <p className="text-sm -mt-1 text-gray-600">Cash</p>
             </div>
           </div>
         </div>

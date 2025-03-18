@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-connectToDb().catch(err => console.log(err));
+connectToDb().catch((err) => console.log(err));
 
 async function connectToDb() {
   try {

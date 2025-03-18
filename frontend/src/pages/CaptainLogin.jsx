@@ -8,6 +8,7 @@ const CaptainLogin = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  
   const { setCaptain } = useContext(CaptainDataContext);
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const CaptainLogin = () => {
     <div className="p-7 h-screen flex flex-col justify-between">
       <div>
         {" "}
-        <img className="w-16 mb-3 " src="https://logodix.com/logo/81070.png" />
+        <img className="w-16 mb-3 " src="https://logodix.com/logo/81070.png" alt="Uber-logo"/>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form
           onSubmit={(e) => {
@@ -73,12 +74,12 @@ const CaptainLogin = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full"
+            className="bg-[#111] text-white font-semibold cursor-pointer mb-3 rounded px-4 py-2  w-full"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-          <p className="text-center">
-            Join a fleet{" "}
+          <p className="text-center cursor-pointer">
+            Join a fleet?{" "}
             <Link to="/captain/signup" className="text-blue-600">
               Register as a Captain
             </Link>
@@ -88,7 +89,7 @@ const CaptainLogin = () => {
       <div>
         <Link
           to="/user/login"
-          className="bg-[#d5622d] flex items-center justify-center text-white font-semibold mb-5 rounded px-4 py-2  w-full"
+          className="bg-[#d5622d] flex items-center cursor-pointer justify-center text-white font-semibold mb-5 rounded px-4 py-2  w-full"
         >
           Sign in as User
         </Link>

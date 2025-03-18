@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ConfirmRidePopUp = (props) => {
@@ -36,7 +36,7 @@ const ConfirmRidePopUp = (props) => {
           props.setRidePopupPanel(false);
         }}
       >
-        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
+        <i className="text-3xl text-gray-500 cursor-pointer ri-arrow-down-wide-line"></i>
       </h5>
       <h3 className="text-2xl font-semibold mb-5">
         Confirm this ride to Start
@@ -93,7 +93,7 @@ const ConfirmRidePopUp = (props) => {
               placeholder="Enter OTP"
             />
 
-            <button className="w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
+            <button className="w-full mt-5 text-lg flex justify-center cursor-pointer bg-green-600 text-white font-semibold p-3 rounded-lg">
               Confirm
             </button>
             <button
@@ -101,7 +101,7 @@ const ConfirmRidePopUp = (props) => {
                 props.setConfirmRidePopupPanel(false);
                 props.setRidePopupPanel(false);
               }}
-              className="w-full mt-2 bg-red-600 text-lg text-white font-semibold p-3 rounded-lg"
+              className="w-full mt-2 bg-red-600 text-lg text-white cursor-pointer font-semibold p-3 rounded-lg"
             >
               Cancel
             </button>
