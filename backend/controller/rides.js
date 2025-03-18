@@ -1,5 +1,10 @@
 import { validationResult } from "express-validator";
 import { createRide, getFare } from "../services/rides.js";
+import {
+  getAddressCoordinates,
+  getCaptainsInTheRadius,
+} from "../services/maps.js";
+import { sendMessageToSocketId } from "../socket.js";
 
 export const makeRide = async (req, res, next) => {
   try {
@@ -14,8 +19,24 @@ export const makeRide = async (req, res, next) => {
       pickup,
       destination,
       vehicleType,
+      f,
     });
-    return res.status(201).json({ message: "Ride created successfully", ride });
+    res.status(201).json({ message: "Ride created successfully", ride });
+    
+    const pickupCoordinates = await getAddressCoordinates(pickup);
+    const captainsInRadius = await getCaptainsInTheRadius(
+      pickupCoordinates.ltd,
+      pickupCoordinates.lng,
+      2
+    ); 
+    // got all the captains, now hide the otp of the ride made and send that info on captain's socket id
+    ride.otp = "";
+    captainsInRadius.map(async (captain) => {
+      sendMessageToSocketId(captain.socketID, {
+        event: "new-ride",
+        data: ride,
+      });
+    });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

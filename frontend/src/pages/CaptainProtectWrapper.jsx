@@ -10,7 +10,7 @@ const CaptainProtectWrapper = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+    
     if (!token) {
       navigate("/captain/login");
       return;
@@ -22,7 +22,7 @@ const CaptainProtectWrapper = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          setCaptain && setCaptain(response.data.captain);
+          setCaptain && setCaptain(response.data);
         }
       })
       .catch((err) => {

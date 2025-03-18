@@ -20,33 +20,32 @@ const CaptainHome = () => {
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
 
-  //  useEffect(() => {
-  //   socket.emit("join", {userId: captain._id, userType: "captain", })
-  // }, [captain]);
-  //   const updateLocation = () => {
-  //     if (navigator.geolocation) {
-  //       navigator.geolocation.getCurrentPosition((position) => {
-  //         socket.emit("update-location-captain", {
-  //           userId: captain._id,
-  //           location: {
-  //             ltd: position.coords.latitude,
-  //             lng: position.coords.longitude,
-  //           },
-  //         });
-  //       });
-  //     }
-  //   };
+  useEffect(() => {
+    socket.emit("join", { userId: captain._id, userType: "captain" });
 
-  //   const locationInterval = setInterval(updateLocation, 10000);
-  //   updateLocation();
+    const updateLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          socket.emit("update-captain-location", {
+            userId: captain._id,
+            location: {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+          });
+        });
+      }
+    };
 
-  //   // return () => clearInterval(locationInterval)
-  // }, []);
+    const locationInterval = setInterval(updateLocation, 10000); // search for 10s
+    updateLocation();
+    // return () => clearInterval(locationInterval);
+  }, [captain]);
 
-  // socket.on("new-ride", (data) => {
-  //   setRide(data);
-  //   setRidePopupPanel(true);
-  // });
+  socket.on("new-ride", (data) => {
+    setRide(data);
+    setRidePopupPanel(true);
+  });
 
   async function confirmRide() {
     try {
@@ -62,14 +61,14 @@ const CaptainHome = () => {
           },
         }
       );
-  
+
       setRidePopupPanel(false);
       setConfirmRidePopupPanel(true);
     } catch (error) {
       console.error("Failed to confirm ride:", error.response?.data || error);
     }
   }
-  
+
   useGSAP(() => {
     gsap.to(ridePopupPanelRef.current, {
       y: ridePopupPanel ? 0 : "100%",
@@ -82,7 +81,6 @@ const CaptainHome = () => {
       duration: 0.5,
     });
   }, [confirmRidePopupPanel]);
-  
 
   return (
     <div className="h-screen relative">

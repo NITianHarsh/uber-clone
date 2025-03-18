@@ -18,6 +18,8 @@ export const initializeSocket = (server) => {
 
     socket.on("join", async (data) => {
       const { userId, userType } = data;
+      console.log(userType);
+      
       if (!userId || !userType) {
         console.log("Invalid join data received", data);
         return;
@@ -54,9 +56,9 @@ export const initializeSocket = (server) => {
   });
 };
 
-export const sendMessageToSocketId = (socketId, message) => {
+export const sendMessageToSocketId = (socketId, messageObject) => {
   if (io) {
-    io.to(socketId).emit("message", message);
+    io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {
     console.error("Socket.io not initialized");
   }

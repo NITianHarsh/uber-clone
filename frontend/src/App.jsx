@@ -30,14 +30,11 @@ const App = () => {
         <Route
           path="/user/home"
           element={
-            <UserProtectWrapper>
+            <SocketProvider>
+              <UserProtectWrapper>
                 <UserHome />
               </UserProtectWrapper>
-            // <SocketProvider>
-            //   <UserProtectWrapper>
-            //     <UserHome />
-            //   </UserProtectWrapper>
-            // </SocketProvider>
+            </SocketProvider>
           }
         />
         <Route
@@ -51,14 +48,11 @@ const App = () => {
         <Route
           path="/captain/home"
           element={
-            <CaptainProtectWrapper>
+            <SocketProvider>
+              <CaptainProtectWrapper>
                 <CaptainHome />
               </CaptainProtectWrapper>
-            // <SocketProvider>
-            //   <CaptainProtectWrapper>
-            //     <CaptainHome />
-            //   </CaptainProtectWrapper>
-            // </SocketProvider>
+            </SocketProvider>
           }
         />
         <Route

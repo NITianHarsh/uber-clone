@@ -1,5 +1,5 @@
 import axios from "axios";
-import captainModel from '../models/captain.js'
+import captainModel from "../models/captain.js";
 
 export const getAddressCoordinates = async (address) => {
   const apiKey = process.env.GOOGLE_MAPS_API;
@@ -43,7 +43,9 @@ export const getDistanceAndTime = async (address1, address2) => {
     );
   }
 
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(address1)}&destinations=${encodeURIComponent(address2)}&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(
+    address1
+  )}&destinations=${encodeURIComponent(address2)}&key=${apiKey}`;
 
   try {
     const response = await axios.get(url);
@@ -86,11 +88,13 @@ export const getAutoSuggestions = async (input) => {
 };
 
 export const getCaptainsInTheRadius = async (ltd, lng, radius) => {
+  // radius in km
   const captain = await captainModel.find({
-    location : {
-      $geoWithin : {
-        $centerSphere : [ [ltd, lng], radius/3963.2]
-      }
-    }
-  })
-}
+    location: {
+      $geoWithin: {
+        $centerSphere: [[ltd, lng], radius / 6371],
+      },
+    },
+  });
+  return captain; 
+};
