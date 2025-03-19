@@ -32,6 +32,7 @@ export const makeRide = async (req, res, next) => {
     // got all the captains, now hide the otp of the ride made and send that info on captain's socket id
     ride.otp = "";
     captainsInRadius.map(async (captain) => {
+      console.log(captain,ride);
       sendMessageToSocketId(captain.socketID, {
         event: "new-ride",
         data: ride,
