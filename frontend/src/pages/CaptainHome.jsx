@@ -8,7 +8,7 @@ import CaptainDetails from "../components/CaptainDetails";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { CaptainDataContext } from "../context/CaptainContext";
 import { useRef, useState, useEffect, useContext } from "react";
-
+ 
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);

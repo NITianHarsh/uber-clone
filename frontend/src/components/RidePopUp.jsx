@@ -51,7 +51,7 @@ const RidePopUp = (props) => {
             <i className="ri-currency-line"></i>
             <div>
               <h3 className="text-lg font-medium">₹{props.ride?.fare} </h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
+              <p className="text-sm -mt-1 text-gray-600">Cash</p>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ const RidePopUp = (props) => {
               props.setConfirmRidePopupPanel(true);
               props.confirmRide();
             }}
-            className=" bg-green-600 w-full text-white font-semibold p-2 px-10 rounded-lg"
+            className=" bg-green-600 w-full text-white cursor-pointer font-semibold p-2 px-10 rounded-lg"
           >
             Accept
           </button>
@@ -70,7 +70,7 @@ const RidePopUp = (props) => {
             onClick={() => {
               props.setRidePopupPanel(false);
             }}
-            className="mt-2 w-full bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg"
+            className="mt-2 w-full bg-gray-300 text-gray-700 cursor-pointer font-semibold p-2 px-10 rounded-lg"
           >
             Ignore
           </button>
