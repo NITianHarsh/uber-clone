@@ -44,6 +44,7 @@ export const makeRide = async (req, res, next) => {
       .populate("user");
 
     captainsInRadius.map(async (captain) => {
+      console.log(captain,ride);
       sendMessageToSocketId(captain.socketID, {
         event: "new-ride",
         data: rideWithUser,
