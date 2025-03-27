@@ -191,6 +191,7 @@ const UserHome = () => {
   }
 
   async function createRide() {
+    
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/rides/create`,
       {
@@ -205,7 +206,6 @@ const UserHome = () => {
       }
     );
     console.log("here are res for create ride --> ", response);
-    
   }
 
   return (

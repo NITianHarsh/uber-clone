@@ -21,7 +21,7 @@ export const authUser = async (req, res, next) => {
     const user = await userModel.findById(decoded._id);
 
     req.user = user;
-    
+    console.log("User authenticated", user);
     return next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized" });

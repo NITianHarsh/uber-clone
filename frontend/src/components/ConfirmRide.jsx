@@ -50,6 +50,7 @@ const ConfirmRide = (props) => {
             props.setConfirmRidePanel(false);
             console.log("confirm ride button clicked");
             props.createRide();
+            console.log("ride created");
           }}
           className="w-full h-12 m-5 bg-green-600 text-white font-semibold cursor-pointer pb-1.2 rounded-lg"
         >

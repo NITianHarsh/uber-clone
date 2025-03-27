@@ -43,7 +43,6 @@ export const initializeSocket = (server) => {
       if (!location || !location.ltd || !location.lng) {
         return socket.emit("error", { message: "Invalid Location Data" });
       }
-      console.log(`User ${userId} updated location to ${location}`);
       await captainModel.findByIdAndUpdate(userId, { location : {
         ltd : location.ltd,
         lng : location.lng
@@ -57,6 +56,7 @@ export const initializeSocket = (server) => {
 };
 
 export const sendMessageToSocketId = (socketId, messageObject) => {
+  console.log("Sending message to socket ID", socketId, messageObject);
   if (io) {
     io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {

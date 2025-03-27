@@ -1,13 +1,14 @@
 import gsap from "gsap";
 import axios from "axios";
 import { useGSAP } from "@gsap/react";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import RidePopUp from "../components/RidePopUp";
 import { SocketContext } from "../context/SocketContext";
 import CaptainDetails from "../components/CaptainDetails";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { CaptainDataContext } from "../context/CaptainContext";
 import { useRef, useState, useEffect, useContext } from "react";
+import LiveTracking from "../components/LiveTracking";
  
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -43,6 +44,7 @@ const CaptainHome = () => {
   }, [captain]);
 
   socket.on("new-ride", (data) => {
+    console.log("New Ride:", data);
     setRide(data);
     setRidePopupPanel(true);
   });
@@ -98,11 +100,7 @@ const CaptainHome = () => {
         </Link>
       </div>
       <div className="h-3/5">
-        <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt=""
-        />
+        <LiveTracking />
       </div>
       <div className="h-2/5 p-6">
         <CaptainDetails />

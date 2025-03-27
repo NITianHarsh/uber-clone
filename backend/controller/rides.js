@@ -13,7 +13,7 @@ import {
 import { sendMessageToSocketId } from "../socket.js";
 import rideModel from "../models/ride.js";
 
-export const makeRide = async (req, res, next) => {
+export const makeRide = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,30 +26,31 @@ export const makeRide = async (req, res, next) => {
       pickup,
       destination,
       vehicleType,
-      f,
     });
-    res.status(201).json({ message: "Ride created successfully", ride });
-
+    
     const pickupCoordinates = await getAddressCoordinates(pickup);
+      
     const captainsInRadius = await getCaptainsInTheRadius(
       pickupCoordinates.ltd,
       pickupCoordinates.lng,
       2
     );
+    
+    
     // got all the captains, now hide the otp of the ride made and send that info on captain's socket id
     ride.otp = "";
 
     const rideWithUser = await rideModel
       .findOne({ _id: ride._id })
-      .populate("user");
+      .populate("user", "-password"); // Ensure the user is fully populated, excluding sensitive fields like password
 
-    captainsInRadius.map(async (captain) => {
-      console.log(captain,ride);
+    captainsInRadius.forEach((captain) => {
       sendMessageToSocketId(captain.socketID, {
-        event: "new-ride",
-        data: rideWithUser,
+      event: "new-ride",
+      data: rideWithUser,
       });
     });
+    res.status(201).json({ message: "Ride created successfully", ride });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

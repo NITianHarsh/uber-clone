@@ -30,7 +30,7 @@ export async function getFare(pickup, destination) {
   return {
     car: baseFare.car + distanceInKm * rates.car,
     auto: baseFare.auto + distanceInKm * rates.auto,
-    motorCycle: baseFare.motorcycle + distanceInKm * rates.motorcycle,
+    motorcycle: baseFare.motorcycle + distanceInKm * rates.motorcycle,
   };
 }
 
