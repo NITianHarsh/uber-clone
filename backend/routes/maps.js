@@ -25,6 +25,11 @@ mapsRouter.get(
 mapsRouter.get(
   "/get-suggestion",
   query("input").isString().isLength({ min: 3 }),
+    // Log the received query parameter
+      (req, _res, next) => {
+        console.log("Received input for suggestions:", req.query.input);
+        next();
+      },
   authUser,
   autoSuggestions
 );

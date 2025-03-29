@@ -53,7 +53,14 @@ const UserHome = () => {
   // });
 
   const handlePickupChange = async (e) => {
-    setPickup(e.target.value);
+    const inputValue = e.target.value;
+  setPickup(inputValue);
+    // Only fetch suggestions when input is 3+ characters
+    if (inputValue.length < 3) {
+      // Optionally clear suggestions here
+      setPickupSuggestions([]);
+      return;
+    }
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/maps/get-suggestion`,
@@ -72,7 +79,12 @@ const UserHome = () => {
     }
   };
   const handleDestinationChange = async (e) => {
-    setDestination(e.target.value);
+    const inputValue = e.target.value;
+    setDestination(inputValue);
+    if (inputValue.length < 3) {
+      setDestinationSuggestions([]);
+      return;
+    }
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/maps/get-suggestion`,
