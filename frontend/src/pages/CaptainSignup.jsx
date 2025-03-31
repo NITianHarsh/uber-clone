@@ -14,7 +14,7 @@ const CaptainSignup = () => {
   const [vehicleColor, setVehicleColor] = useState("");
   const [vehicleType, setVehicleType] = useState("");
   const [vehicleCapacity, setVehicleCapacity] = useState("");
-  
+
   const { setCaptain } = useContext(CaptainDataContext);
   const navigate = useNavigate();
 
@@ -29,13 +29,11 @@ const CaptainSignup = () => {
       return;
     }
 
-    const fullname = {
-      firstname: firstName,
-      ...(lastName && { lastname: lastName }),
-    };
-
     const newCaptain = {
-      fullname,
+      fullname: {
+        firstname: firstName,
+        lastname: lastName || "",
+      },
       email,
       password,
       vehicle: {
@@ -132,9 +130,7 @@ const CaptainSignup = () => {
               min="1"
               placeholder="Vehicle Capacity"
               value={vehicleCapacity}
-              onChange={(e) =>
-                setVehicleCapacity(Number(e.target.value))
-              }
+              onChange={(e) => setVehicleCapacity(Number(e.target.value))}
             />
             <select
               required
@@ -143,7 +139,9 @@ const CaptainSignup = () => {
               defaultValue=""
               onChange={(e) => setVehicleType(e.target.value)}
             >
-              <option value="" disabled>Select a Vehicle</option>
+              <option value="" disabled>
+                Select a Vehicle
+              </option>
               <option value="car">Car</option>
               <option value="auto">Auto</option>
               <option value="motorcycle">Motorcycle</option>

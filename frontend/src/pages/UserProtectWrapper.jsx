@@ -13,7 +13,7 @@ const UserProtectWrapper = ({ children }) => {
     if (!token) {
       navigate("/user/login");
     }
-    
+
     axios
       .get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
         headers: {

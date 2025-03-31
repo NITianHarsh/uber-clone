@@ -27,31 +27,32 @@ export const makeRide = async (req, res) => {
       destination,
       vehicleType,
     });
-    
+
     const pickupCoordinates = await getAddressCoordinates(pickup);
-      
+
     const captainsInRadius = await getCaptainsInTheRadius(
       pickupCoordinates.ltd,
       pickupCoordinates.lng,
       2
     );
-    
-    
+
     // got all the captains, now hide the otp of the ride made and send that info on captain's socket id
     ride.otp = "";
 
     const rideWithUser = await rideModel
       .findOne({ _id: ride._id })
-      .populate("user", "-password"); // Ensure the user is fully populated, excluding sensitive fields like password
+      .populate("userId", "-password"); // Ensure the user is fully populated, excluding sensitive fields like password
+    
 
     captainsInRadius.forEach((captain) => {
       sendMessageToSocketId(captain.socketID, {
-      event: "new-ride",
-      data: rideWithUser,
+        event: "new-ride",
+        data: rideWithUser,
       });
-    });
+    });  
     res.status(201).json({ message: "Ride created successfully", ride });
   } catch (error) {
+    console.error("Error creating ride:", error.message);
     return res.status(400).json({ message: error.message });
   }
 };
@@ -66,7 +67,7 @@ export const getsFare = async (req, res, next) => {
     const fare = await getFare(pickup, destination);
     return res.status(200).json(fare);
   } catch (error) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 

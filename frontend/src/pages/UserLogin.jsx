@@ -40,7 +40,11 @@ const UserLogin = () => {
     <div className="p-7 h-screen flex flex-col justify-between">
       <div>
         {" "}
-        <img className="w-16 mb-3 " src="https://logodix.com/logo/81070.png" alt="Uber-Logo" />
+        <img
+          className="w-16 mb-3 "
+          src="https://logodix.com/logo/81070.png"
+          alt="Uber-Logo"
+        />
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form
           onSubmit={(e) => {

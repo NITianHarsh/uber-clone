@@ -11,7 +11,7 @@ export const getAddressCoordinates = async (address) => {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
     address
   )}&key=${apiKey}`;
-
+ 
   try {
     const response = await axios.get(url);
 
@@ -96,5 +96,5 @@ export const getCaptainsInTheRadius = async (ltd, lng, radius) => {
       },
     },
   });
-  return captain; 
+  return captain;
 };

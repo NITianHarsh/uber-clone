@@ -1,7 +1,7 @@
 import React from "react";
 
 const RidePopUp = (props) => {
-  console.log("prop rides and user are ", props);
+  console.log("prop are ", props);
   return (
     <div>
       <h5
@@ -21,9 +21,9 @@ const RidePopUp = (props) => {
             alt=""
           />
           <h2 className="text-lg font-medium">
-            {props.ride?.user.fullname.firstname +
+            {props.ride?.userId.fullname.firstname +
               " " +
-              props.ride?.user.fullname.lastname}
+              props.ride?.userId.fullname.lastname}
           </h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 KM</h5>

@@ -186,12 +186,11 @@ const UserHome = () => {
         },
       }
     );
-    
+
     setFare(response.data);
   }
 
   async function createRide() {
-    
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/rides/create`,
       {

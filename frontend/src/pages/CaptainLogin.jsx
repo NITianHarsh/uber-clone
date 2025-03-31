@@ -8,7 +8,7 @@ const CaptainLogin = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   const { setCaptain } = useContext(CaptainDataContext);
   const navigate = useNavigate();
 
@@ -40,7 +40,11 @@ const CaptainLogin = () => {
     <div className="p-7 h-screen flex flex-col justify-between">
       <div>
         {" "}
-        <img className="w-16 mb-3 " src="https://logodix.com/logo/81070.png" alt="Uber-logo"/>
+        <img
+          className="w-16 mb-3 "
+          src="https://logodix.com/logo/81070.png"
+          alt="Uber-logo"
+        />
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form
           onSubmit={(e) => {

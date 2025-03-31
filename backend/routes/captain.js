@@ -11,7 +11,7 @@ import { authCaptain } from "../middlewares/auth.js";
 const captainRouter = express.Router();
 
 // Register Captain route
-captainRouter.post( 
+captainRouter.post(
   "/register",
   [
     body("email").isEmail().withMessage("Invalid Email"),

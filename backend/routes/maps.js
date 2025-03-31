@@ -1,6 +1,10 @@
 import express from "express";
-import {authUser} from "../middlewares/auth.js"
-import { autoSuggestions, getCoordinates, getDisAndTim } from "../controller/maps.js";
+import { authUser } from "../middlewares/auth.js";
+import {
+  autoSuggestions,
+  getCoordinates,
+  getDisAndTim,
+} from "../controller/maps.js";
 import { query } from "express-validator";
 
 const mapsRouter = express.Router();

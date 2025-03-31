@@ -1,32 +1,38 @@
 import gsap from "gsap";
 import axios from "axios";
 import { useGSAP } from "@gsap/react";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RidePopUp from "../components/RidePopUp";
+import LiveTracking from "../components/LiveTracking";
 import { SocketContext } from "../context/SocketContext";
 import CaptainDetails from "../components/CaptainDetails";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { CaptainDataContext } from "../context/CaptainContext";
 import { useRef, useState, useEffect, useContext } from "react";
-import LiveTracking from "../components/LiveTracking";
- 
+
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
+  const [ride, setRide] = useState(null);
 
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
-  const [ride, setRide] = useState(null);
 
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
 
   useEffect(() => {
+    if (!socket || !captain) {
+      console.log("Socket or captain data is missing. Cannot proceed.");
+      return;
+    }
+    // Join the captain room
     socket.emit("join", { userId: captain._id, userType: "captain" });
-
+    // Function to update location
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
+          
           socket.emit("update-captain-location", {
             userId: captain._id,
             location: {
@@ -35,21 +41,34 @@ const CaptainHome = () => {
             },
           });
         });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
       }
     };
-
-    const locationInterval = setInterval(updateLocation, 10000); // search for 10s
+    // Send location update every 10s
+    const locationInterval = setInterval(updateLocation, 10000);
     updateLocation();
-    // return () => clearInterval(locationInterval);
+    
+    // Handle new ride event
+    const handleNewRide = (data) => {
+      setRide(data);
+      setRidePopupPanel(true);
+    };
+    socket.on("new-ride", handleNewRide);
+  
+    // Cleanup function
+    return () => {
+      clearInterval(locationInterval);
+      socket.off("new-ride", handleNewRide);
+    };
   }, [captain]);
 
-  socket.on("new-ride", (data) => {
-    console.log("New Ride:", data);
-    setRide(data);
-    setRidePopupPanel(true);
-  });
+  const confirmRide = async () => {
+    if (!ride){
+      console.error("Ride data is not available.");
+      return;
+    }
 
-  async function confirmRide() {
     try {
       await axios.post(
         `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
@@ -69,7 +88,7 @@ const CaptainHome = () => {
     } catch (error) {
       console.error("Failed to confirm ride:", error.response?.data || error);
     }
-  }
+  };
 
   useGSAP(() => {
     gsap.to(ridePopupPanelRef.current, {
@@ -77,6 +96,7 @@ const CaptainHome = () => {
       duration: 0.5,
     });
   }, [ridePopupPanel]);
+
   useGSAP(() => {
     gsap.to(confirmRidePopupPanelRef.current, {
       y: confirmRidePopupPanel ? 0 : "100%",
@@ -90,11 +110,11 @@ const CaptainHome = () => {
         <img
           className="w-16"
           src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt=""
+          alt="Uber Logo"
         />
         <Link
           to="/captain/home"
-          className=" h-10 w-10 bg-white flex items-center justify-center rounded-full"
+          className="h-10 w-10 bg-white flex items-center justify-center rounded-full"
         >
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
         </Link>

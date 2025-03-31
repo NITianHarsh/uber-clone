@@ -10,7 +10,7 @@ const CaptainProtectWrapper = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+
     if (!token) {
       navigate("/captain/login");
       return;

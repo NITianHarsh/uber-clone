@@ -15,7 +15,7 @@ import CaptainSignup from "./pages/CaptainSignup";
 import SocketProvider from "./context/SocketContext";
 import UserProtectWrapper from "./pages/UserProtectWrapper";
 import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
-// testing the app
+
 const App = () => {
   return (
     <div>

@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect } from "react";
-import axios from "axios"; // For API calls
+import { createContext, useState } from "react";
 
 export const CaptainDataContext = createContext();
 
@@ -19,7 +18,6 @@ const CaptainContext = ({ children }) => {
     error,
     setError, // Added setError
   };
-  
 
   return (
     <CaptainDataContext.Provider value={value}>
