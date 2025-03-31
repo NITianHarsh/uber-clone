@@ -25,8 +25,8 @@ export const getAddressCoordinates = async (address) => {
     }
 
     return {
-      lat: response.data.results[0].geometry.location.lat,
-      lon: response.data.results[0].geometry.location.lng,
+      ltd: response.data.results[0].geometry.location.lat,
+      lng: response.data.results[0].geometry.location.lng,
     };
   } catch (error) {
     console.error("Error fetching coordinates:", error.message);

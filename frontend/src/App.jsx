@@ -15,14 +15,14 @@ import CaptainSignup from "./pages/CaptainSignup";
 import SocketProvider from "./context/SocketContext";
 import UserProtectWrapper from "./pages/UserProtectWrapper";
 import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
-
+// testing the app
 const App = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/user/login" element={<UserLogin />} />
-        <Route path="/riding" element={<Riding />} />
+        <Route path="/user/riding" element={<Riding />} />
         <Route path="/captain/riding" element={<CaptainRiding />} />
         <Route path="/user/signup" element={<UserSignup />} />
         <Route path="/captain/login" element={<Captainlogin />} />

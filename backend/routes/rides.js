@@ -1,8 +1,13 @@
 import express from "express";
 import { body, query } from "express-validator";
-import { getsFare, makeRide } from "../controller/rides.js";
-import { authUser } from "../middlewares/auth.js";
-import { validationResult } from "express-validator";
+import {
+  confirmRide,
+  endRide,
+  getsFare,
+  makeRide,
+  startRide,
+} from "../controller/rides.js";
+import { authCaptain, authUser } from "../middlewares/auth.js";
 
 const ridesRouter = express.Router();
 
@@ -47,4 +52,25 @@ ridesRouter.get(
   getsFare
 );
 
+ridesRouter.post(
+  "/confirm",
+  authCaptain,
+  body("rideId").isMongoId().withMessage("Invalid ride id"),
+  confirmRide
+);
+
+ridesRouter.get(
+  "/start-ride",
+  authCaptain,
+  query("rideId").isMongoId().withMessage("Invalid ride id"),
+  query("otp").isString().isLength({ min: 6 }).withMessage("Invalid OTP"),
+  startRide
+);
+
+ridesRouter.post(
+  "/end-ride",
+  authCaptain,
+  body("rideId").isMongoId().withMessage("Invalid ride id"),
+  endRide
+);
 export default ridesRouter;

@@ -9,7 +9,7 @@ const WaitingForDriver = (props) => {
           props.waitingForDriver(false);
         }}
       >
-        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
+        <i className="text-3xl text-gray-500 cursor-pointer ri-arrow-down-wide-line"></i>
       </h5>
 
       <div className="flex items-center justify-between">
@@ -54,7 +54,7 @@ const WaitingForDriver = (props) => {
             <i className="ri-currency-line"></i>
             <div>
               <h3 className="text-lg font-medium">₹{props.ride?.fare} </h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
+              <p className="text-sm -mt-1 text-gray-600">Cash</p>
             </div>
           </div>
         </div>

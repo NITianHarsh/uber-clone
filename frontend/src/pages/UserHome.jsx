@@ -41,16 +41,15 @@ const UserHome = () => {
   useEffect(() => {
     socket.emit("join", { userType: "user", userId: user._id });
   }, [user]);
-  // socket.on("ride-confirmed", (ride) => {
-  //   setVehicleFound(false);
-  //   setWaitingForDriver(true);
-  //   setRide(ride);
-  // });
-  // socket.on("ride-started", (ride) => {
-  //   console.log("ride");
-  //   setWaitingForDriver(false);
-  //   navigate("/riding", { state: { ride } }); // Updated navigate to include ride data
-  // });
+  socket.on("ride-confirmed", (ride) => {
+    setVehicleFound(false);
+    setWaitingForDriver(true);
+    setRide(ride);
+  });
+  socket.on("ride-started", (ride) => {
+    setWaitingForDriver(false);
+    navigate("/user/riding", { state: { ride } }); // Updated navigate to include ride data
+  });
 
   const handlePickupChange = async (e) => {
     const inputValue = e.target.value;
@@ -204,6 +203,7 @@ const UserHome = () => {
   }
 
   async function createRide() {
+    
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/rides/create`,
       {
@@ -218,7 +218,6 @@ const UserHome = () => {
       }
     );
     console.log("here are res for create ride --> ", response);
-    
   }
 
   return (
