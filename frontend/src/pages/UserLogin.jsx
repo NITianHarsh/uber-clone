@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
 
@@ -7,14 +7,15 @@ const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const { setUser } = useContext(UserDataContext);
+  const [errorMsg, setErrorMsg] = useState("");
+
   const navigate = useNavigate();
+  const { setUser } = useContext(UserDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/users/login`,
@@ -26,75 +27,92 @@ const UserLogin = () => {
         setUser(data.user);
         localStorage.setItem("token", data.token);
         navigate("/user/home");
-        setEmail("");
-        setPassword("");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed. Try again.");
+      setErrorMsg(
+        err.response?.data?.message || "Login failed. Please check credentials."
+      );
     } finally {
+      setEmail("");
+      setPassword("");
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-7 h-screen flex flex-col justify-between">
-      <div>
-        {" "}
+    <div className="min-h-screen relative flex items-center justify-center bg-white px-4 py-8">
+      <Link to="/">
         <img
-          className="w-16 mb-3 "
-          src="https://logodix.com/logo/81070.png"
-          alt="Uber-Logo"
+          className="h-6 mb-4 absolute top-8 left-8"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s"
+          alt="Logo"
         />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <form
-          onSubmit={(e) => {
-            submitHandler(e);
-          }}
-        >
-          <h3 className="text-lg font-medium mb-2">What's your email</h3>
-          <input
-            required
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
-            type="email"
-            placeholder="email@example.com"
-          />
-          <h3 className="text-lg font-medium  mb-2">Enter Password</h3>
-          <input
-            required
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
-            type="password"
-            placeholder="password"
-          />
+      </Link>
+      <div className="w-full max-w-md bg-white border border-black rounded-2xl p-8 shadow-lg">
+        <div className="flex flex-col items-center mb-4">
+          <h2 className="text-3xl font-bold italic text-center text-black">
+            User Login
+          </h2>
+          <p className="text-md text-gray-500 text-center mt-2">
+            Enter your credentials below
+          </p>
+        </div>
+
+        <form onSubmit={submitHandler} className="space-y-6">
+          <div>
+            <label className="block text-md font-medium mb-1 text-black">
+              Email
+            </label>
+            <input
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email@example.com"
+              className="w-full px-4 py-2 border border-black rounded-md text-black placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black"
+            />
+          </div>
+
+          <div>
+            <label className="block text-md font-medium mb-1 text-black">
+              Password
+            </label>
+            <input
+              required
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full px-4 py-2 border border-black rounded-md text-black placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black"
+            />
+          </div>
+          {errorMsg && (
+            <p className="text-red-600 text-sm text-center">{errorMsg}</p>
+          )}
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full"
+            className="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-opacity-90 transition duration-300"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-          <p className="text-center">
-            New Here?{" "}
-            <Link to="/user/signup" className="text-blue-600">
-              Create new Account
-            </Link>
-          </p>
         </form>
-      </div>
-      <div>
-        <Link
-          to="/captain/login"
-          className="bg-[#10b461] flex items-center justify-center text-white font-semibold mb-5 rounded px-4 py-2  w-full"
-        >
-          Sign in as Captain
-        </Link>
+
+        <p className="mt-4 text-center text-sm text-black">
+          New here?{" "}
+          <Link to="/user/signup" className="underline hover:text-gray-700">
+            Create a new account
+          </Link>
+        </p>
+
+        <div className="mt-6">
+          <Link
+            to="/captain/login"
+            className="w-full block text-center py-2 px-4 bg-orange-600 text-white font-semibold rounded-md hover:bg-opacity-90 transition duration-300"
+          >
+            Sign in as Captain
+          </Link>
+        </div>
       </div>
     </div>
   );

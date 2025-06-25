@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserDataContext } from "../context/UserContext.jsx";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserDataContext } from "../context/UserContext";
 
 const UserProtectWrapper = ({ children }) => {
-  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserDataContext);
+  const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(true);
+  const { user, setUser } = useContext(UserDataContext);
 
   useEffect(() => {
     if (!token) {

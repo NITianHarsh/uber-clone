@@ -1,18 +1,17 @@
-import React, { createContext, useEffect } from "react";
 import { io } from "socket.io-client";
+import { createContext, useEffect } from "react";
 
 export const SocketContext = createContext();
 const socket = io(`${import.meta.env.VITE_BASE_URL}`);
 
 const SocketProvider = ({ children }) => {
   useEffect(() => {
-    // Basic connection logic
     socket.on("connect", () => {
-      console.log("Connected to server");
+      console.log("Socket connected:", socket.id);
     });
 
     socket.on("disconnect", () => {
-      console.log("Disconnected from server");
+      console.log("Socket disconnected");
     });
   }, []);
 

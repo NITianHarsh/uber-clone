@@ -1,17 +1,10 @@
-import express from "express";
-import {
-  registerCaptain,
-  loginCaptain,
-  getCaptainProfile,
-  logoutCaptain,
-} from "../controller/captain.js";
-import { body } from "express-validator";
-import { authCaptain } from "../middlewares/auth.js";
+const express = require("express");
+const { body } = require("express-validator");
+const authMiddleware = require("../middlewares/auth.middleware");
+const captainController = require("../controllers/captain.controller");
 
-const captainRouter = express.Router();
-
-// Register Captain route
-captainRouter.post(
+const router = express.Router();
+router.post(
   "/register",
   [
     body("email").isEmail().withMessage("Invalid Email"),
@@ -23,21 +16,21 @@ captainRouter.post(
       .withMessage("Password must be at least 6 characters long"),
     body("vehicle.color")
       .isLength({ min: 3 })
-      .withMessage("color must be at least 3 characters long"),
+      .withMessage("Color must be at least 3 characters long"),
     body("vehicle.plate")
       .isLength({ min: 3 })
-      .withMessage("plate no. must be at least 3 characters long"),
+      .withMessage("Plate must be at least 3 characters long"),
     body("vehicle.capacity")
       .isInt({ min: 1 })
-      .withMessage("capacity must be at least 3 characters long"),
+      .withMessage("Capacity must be at least 1"),
     body("vehicle.vehicleType")
       .isIn(["car", "motorcycle", "auto"])
       .withMessage("Invalid vehicle type"),
   ],
-  registerCaptain
+  captainController.registerCaptain
 );
-// Login Captain route
-captainRouter.post(
+
+router.post(
   "/login",
   [
     body("email").isEmail().withMessage("Invalid Email"),
@@ -45,9 +38,13 @@ captainRouter.post(
       .isLength({ min: 6 })
       .withMessage("Password must be at least 6 characters long"),
   ],
-  loginCaptain
+  captainController.loginCaptain
 );
-captainRouter.get("/profile", authCaptain, getCaptainProfile);
-captainRouter.get("/logout", authCaptain, logoutCaptain);
 
-export default captainRouter;
+router.get(
+  "/profile",
+  authMiddleware.authCaptain,
+  captainController.getCaptainProfile
+);
+
+module.exports = router;

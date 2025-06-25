@@ -1,28 +1,30 @@
-import cors from "cors";
-import dotenv from "dotenv";
-import express from "express";
-import connectToDb from "./Db/db.js";
-import cookieParser from "cookie-parser";
-import userRouter from "./routes/user.js";
-import captainRouter from "./routes/captain.js";
-import mapsRouter from "./routes/maps.js";
-import ridesRouter from "./routes/rides.js";
+const userRoutes = require("./routes/user.routes");
+const mapsRoutes = require("./routes/maps.routes");
+const rideRoutes = require("./routes/ride.routes");
+const captainRoutes = require("./routes/captain.routes");
+
+const cors = require("cors");
+const dotenv = require("dotenv");
+const express = require("express");
+const connectToDb = require("./db/db");
+const cookieParser = require("cookie-parser");
+
 dotenv.config();
 const app = express();
-
 connectToDb();
 
-app.use(cors()); // for now, sari websites se accept krenge, later only a specific domain
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/users", userRouter);
-app.use("/captains", captainRouter);
-app.use("/maps", mapsRouter);
-app.use("/rides", ridesRouter);
-
-app.get("/", (_, res) => {
-  res.send("Hey Its working !");
+app.get("/", (req, res) => {
+  res.send("Hello World");
 });
-export default app;
+
+app.use("/maps", mapsRoutes);
+app.use("/rides", rideRoutes);
+app.use("/users", userRoutes);
+app.use("/captains", captainRoutes);
+
+module.exports = app;

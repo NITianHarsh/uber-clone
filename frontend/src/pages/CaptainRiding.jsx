@@ -1,8 +1,8 @@
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
-import FinishRide from "../components/FinishRide";
+import React, { useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import FinishRide from "../components/FinishRide";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import LiveTracking from "../components/LiveTracking";
 
 const CaptainRiding = () => {
@@ -35,7 +35,7 @@ const CaptainRiding = () => {
           alt=""
         />
         <Link
-          to="/captain/home"
+          to="/captain-home"
           className=" h-10 w-10 bg-white flex items-center justify-center rounded-full"
         >
           <i className="text-lg font-medium ri-logout-box-r-line"></i>

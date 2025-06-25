@@ -1,24 +1,22 @@
-import React from "react";
-
 const VehiclePanel = (props) => {
   return (
-    <div>
+    <div className="mt-5 bg-gray-200 rounded-lg p-2">
       <h5
-        className="p-1 text-center w-[93%] absolute top-0"
+        className="text-center w-[93%]"
         onClick={() => {
           props.setVehiclePanel(false);
         }}
       >
-        <i className="text-3xl text-gray-500 cursor-pointer ri-arrow-down-wide-line"></i>
+        <i className="text-3xl text-gray-900 ri-arrow-down-wide-line"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">Choose a Vehicle</h3>
-
+      <h3 className="text-2xl font-semibold mb-3 pl-3">Choose a Vehicle</h3>
       <div
         onClick={() => {
+          props.setVehiclePanel(false);
           props.setConfirmRidePanel(true);
           props.selectVehicle("car");
         }}
-        className="flex border-2 active:border-black  mb-2 rounded-xl w-full p-3 cursor-pointer items-center justify-between"
+        className="flex border-2 border-gray-500 cursor-pointer active:border-black mb-2 rounded-xl w-full p-3  items-center justify-between"
       >
         <img
           className="h-10"
@@ -29,7 +27,7 @@ const VehiclePanel = (props) => {
           <h4 className="font-medium text-base">
             UberGo{" "}
             <span>
-              <i className="ri-user-3-fill"></i>4
+              <i className="ri-user-3-fill"></i>{" "}4
             </span>
           </h4>
           <h5 className="font-medium text-sm">2 mins away </h5>
@@ -39,13 +37,13 @@ const VehiclePanel = (props) => {
         </div>
         <h2 className="text-lg font-semibold">₹{props.fare.car}</h2>
       </div>
-
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
-          props.selectVehicle("motorcycle");
+          props.selectVehicle("moto");
+          props.setVehiclePanel(false);
         }}
-        className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 cursor-pointer items-center justify-between"
+        className="flex border-2 border-gray-500 cursor-pointer active:border-black mb-2 rounded-xl w-full p-3  items-center justify-between"
       >
         <img
           className="h-10"
@@ -54,7 +52,7 @@ const VehiclePanel = (props) => {
         />
         <div className="-ml-2 w-1/2">
           <h4 className="font-medium text-base">
-            Motorcycle{" "}
+            Moto{" "}
             <span>
               <i className="ri-user-3-fill"></i>1
             </span>
@@ -64,15 +62,15 @@ const VehiclePanel = (props) => {
             Affordable motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹{props.fare.motorcycle}</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.moto}</h2>
       </div>
-
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.selectVehicle("auto");
+          props.setVehiclePanel(false);
         }}
-        className="flex border-2 active:border-black mb-2 rounded-xl w-full p-3 cursor-pointer items-center justify-between"
+        className="flex border-2 border-gray-500 cursor-pointer active:border-black mb-2 rounded-xl w-full p-3  items-center justify-between"
       >
         <img
           className="h-10"

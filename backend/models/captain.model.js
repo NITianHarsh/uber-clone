@@ -1,60 +1,56 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const captainSchema = new mongoose.Schema({
   fullname: {
     firstname: {
       type: String,
-      required: [true, "First name is required"],
-      minLength: [3, "First name must be at least 3 characters"],
-      trim: true,
+      required: true,
+      minlength: [3, "Firstname must be at least 3 characters long"],
     },
     lastname: {
       type: String,
-      default: "",
-      trim: true,
+      minlength: [3, "Lastname must be at least 3 characters long"],
     },
   },
   email: {
     type: String,
-    required: [true, "Email is required"],
     unique: true,
-    minLength: [5, "Email must be at least 5 characters"],
-    trim: true,
+    required: true,
     lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
   },
   password: {
     type: String,
-    required: [true, "Password is required"],
-    select: false, // taki ye feild user ke pass na jaye
+    select: false,
+    required: true,
   },
-  socketID: {
+  socketId: {
     type: String,
-    default: null,
   },
+
   status: {
     type: String,
     enum: ["active", "inactive"],
     default: "inactive",
   },
+
   vehicle: {
     color: {
       type: String,
       required: true,
-      minLength: [3, "Color must be at least 3 characters"],
-      trim: true,
+      minlength: [3, "Color must be at least 3 characters long"],
     },
     plate: {
       type: String,
       required: true,
-      minLength: [3, "Plate no. must be at least 3 characters"],
-      trim: true,
+      minlength: [3, "Plate must be at least 3 characters long"],
     },
     capacity: {
       type: Number,
       required: true,
-      min: [1, "Capcity must be at least 1"],
+      min: [1, "Capacity must be at least 1"],
     },
     vehicleType: {
       type: String,
@@ -62,6 +58,7 @@ const captainSchema = new mongoose.Schema({
       enum: ["car", "motorcycle", "auto"],
     },
   },
+
   location: {
     ltd: {
       type: Number,
@@ -78,13 +75,15 @@ captainSchema.methods.generateAuthToken = function () {
   });
   return token;
 };
+
 captainSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
+
 captainSchema.statics.hashPassword = async function (password) {
   return await bcrypt.hash(password, 10);
 };
 
-// Creating captain Model
 const captainModel = mongoose.model("captain", captainSchema);
-export default captainModel;
+
+module.exports = captainModel;

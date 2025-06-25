@@ -1,22 +1,23 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
 
 const UserSignup = () => {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState(null);
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(UserDataContext);
+  const [firstName, setFirstName] = useState("");
+
   const navigate = useNavigate();
+  const { setUser } = useContext(UserDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+    setErrorMsg("");
 
     const newUser = {
       fullname: {
@@ -38,99 +39,101 @@ const UserSignup = () => {
         setUser(data.user);
         localStorage.setItem("token", data.token);
         navigate("/user/home");
-
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Signup failed. Try again.");
+      setErrorMsg(
+        err.response?.data?.message || "Signup failed. Please try again."
+      );
     } finally {
       setLoading(false);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
     }
   };
 
   return (
-    <div className="p-7 h-screen flex flex-col justify-between">
-      <div>
-        {" "}
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-8">
+      <Link to="/">
         <img
-          className="w-16 "
-          src="http://pluspng.com/img-png/uber-logo-vector-png-uber-icon-png-50-px-1600.png"
-          alt="Uber-logo"
+          className="h-6 mb-4 absolute top-8 left-8"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s"
+          alt="Logo"
         />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <form
-          onSubmit={(e) => {
-            submitHandler(e);
-          }}
-        >
-          <h3 className="text-base font-medium mb-2">What's your name</h3>
-          <div className="flex gap-2 mb-5">
+      </Link>
+      <div className="w-full max-w-md bg-white border border-black rounded-2xl p-8 shadow-lg">
+        <div className="flex flex-col items-center mb-4">
+          <h2 className="text-3xl font-bold italic text-center text-black">
+            Create Account
+          </h2>
+          <p className="text-md text-gray-500 text-center mt-2">
+            Join us by filling the form below
+          </p>
+        </div>
+
+        <form onSubmit={submitHandler} className="space-y-6">
+          <div className="flex gap-4">
             <input
               required
-              className="bg-[#eeeeee]  rounded px-4 py-2 border w-1/2 text-base placeholder:text-sm"
               type="text"
-              placeholder="First Name"
+              placeholder="First name"
               value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-1/2 px-4 py-2 border border-black rounded-md placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black"
             />
             <input
-              className="bg-[#eeeeee]  rounded px-4 py-2 border w-1/2 text-lg placeholder:text-sm"
+              required
               type="text"
-              placeholder="Last Name"
+              placeholder="Last name"
               value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-1/2 px-4 py-2 border border-black rounded-md placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black"
             />
           </div>
-          <h3 className="text-base font-medium mb-2">What's your email</h3>
+
           <input
             required
-            className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-base placeholder:text-sm"
             type="email"
             placeholder="email@example.com"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 border border-black rounded-md placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black"
           />
-          <h3 className="text-base font-medium  mb-2">Enter Password</h3>
+
           <input
             required
-            className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-base placeholder:text-sm"
             type="password"
-            placeholder="password"
+            placeholder="Password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border border-black rounded-md placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black"
           />
+
+          {errorMsg && (
+            <p className="text-red-600 text-sm text-center">{errorMsg}</p>
+          )}
+
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full"
+            className="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-md hover:bg-opacity-90 transition duration-300"
           >
-            {loading ? "Creating..." : "Create an Account"}
+            {loading ? "Creating account..." : "Create Account"}
           </button>
-          <p className="text-center">
-            Already have a account?{" "}
-            <Link to="/user/login" className="text-blue-600">
-              Login here
-            </Link>
-          </p>
         </form>
-      </div>
-      <div>
-        <p>
-          {" "}
+
+        <p className="mt-4 text-center text-sm text-black">
+          Already have an account?{" "}
+          <Link to="/user/login" className="underline hover:text-gray-700">
+            Login here
+          </Link>
+        </p>
+
+        <p className="mt-6 text-[10px] text-center leading-tight text-gray-500">
           This site is protected by reCAPTCHA and the{" "}
-          <span className="underline"> Google Privacy Policy</span> and{" "}
-          <span className="underline">Terms of Service apply.</span>
+          <span className="underline">Google Privacy Policy</span> and{" "}
+          <span className="underline">Terms of Service</span> apply.
         </p>
       </div>
     </div>

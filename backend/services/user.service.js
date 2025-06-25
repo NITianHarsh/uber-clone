@@ -1,11 +1,15 @@
-import userModel from "../models/user.js";
+const userModel = require("../models/user.model");
 
-const createUser = async ({ firstname, lastname, email, password }) => {
+module.exports.createUser = async ({
+  firstname,
+  lastname,
+  email,
+  password,
+}) => {
   if (!firstname || !email || !password) {
     throw new Error("All fields are required");
   }
-
-  const user = await userModel.create({
+  const user = userModel.create({
     fullname: {
       firstname,
       lastname,
@@ -16,5 +20,3 @@ const createUser = async ({ firstname, lastname, email, password }) => {
 
   return user;
 };
-
-export default createUser;

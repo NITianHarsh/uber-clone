@@ -1,90 +1,45 @@
-import React, { useContext, useEffect } from "react";
-import axios from "axios";
-import { CaptainDataContext } from "../context/CaptainContext.jsx";
+import { useContext } from "react";
+import { CaptainDataContext } from "../context/CapatainContext";
 
 const CaptainDetails = () => {
-  const { captain, setCaptain, isLoading, setIsLoading, error, setError } =
-    useContext(CaptainDataContext);
-
-  useEffect(() => {
-    const fetchCaptainData = async () => {
-      setIsLoading(true);
-
-      const token = localStorage.getItem("token");
-
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/captains/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setCaptain(response.data);
-      } catch (err) {
-        setError("Failed to load captain data.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCaptainData();
-  }, [setCaptain, setIsLoading, setError]);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const { captain } = useContext(CaptainDataContext);
 
   return (
-    <div>
+    <div className="p-4 bg-white rounded-2xl shadow-sm space-y-6">
+      {/* Profile & Earnings */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center justify-start gap-3">
+        <div className="flex items-center gap-4">
           <img
-            className="h-10 w-10 rounded-full object-cover"
-            src={
-              captain?.profilePicture ||
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
-            }
-            alt="Captain Profile"
+            className="h-12 w-12 rounded-full object-cover shadow"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
+            alt="Captain Avatar"
           />
-          <h4 className="text-lg font-medium capitalize">
-            {captain?.fullname
-              ? `${captain.fullname.firstname ?? ""} ${
-                  captain.fullname.lastname ?? ""
-                }`.trim()
-              : "Captain"}
+          <h4 className="text-lg font-semibold capitalize text-gray-800">
+            {captain.fullname.firstname + " " + captain.fullname.lastname}
           </h4>
         </div>
-        <div>
-          <h4 className="text-xl font-semibold">
-            ₹{captain?.earnings?.toFixed(2) ?? "0.00"}
-          </h4>
-          <p className="text-sm text-gray-600">Earned</p>
+        <div className="text-right">
+          <h4 className="text-xl font-bold text-green-600">₹295.20</h4>
+          <p className="text-sm text-gray-500">Earned</p>
         </div>
       </div>
 
-      <div className="flex p-3 mt-8 bg-gray-100 rounded-xl justify-center gap-5 items-start">
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-4 bg-gray-50 p-4 rounded-xl shadow-inner">
         <div className="text-center">
-          <i className="text-3xl mb-2 font-thin ri-timer-2-line"></i>
-          <h5 className="text-lg font-medium">
-            {captain?.hoursOnline ?? "0.0"}
-          </h5>
-          <p className="text-sm text-gray-600">Hours Online</p>
+          <i className="ri-timer-2-line text-2xl text-gray-700 mb-1 block"></i>
+          <h5 className="text-lg font-medium text-gray-800">10.2</h5>
+          <p className="text-sm text-gray-500">Hours Online</p>
         </div>
-
         <div className="text-center">
-          <i className="text-3xl mb-2 font-thin ri-speed-up-line"></i>
-          <h5 className="text-lg font-medium">
-            {captain?.tripsCompleted ?? "0"}
-          </h5>
-          <p className="text-sm text-gray-600">Trips Completed</p>
+          <i className="ri-speed-up-line text-2xl text-gray-700 mb-1 block"></i>
+          <h5 className="text-lg font-medium text-gray-800">18</h5>
+          <p className="text-sm text-gray-500">Trips Completed</p>
         </div>
-
         <div className="text-center">
-          <i className="text-3xl mb-2 font-thin ri-booklet-line"></i>
-          <h5 className="text-lg font-medium">{captain?.rating ?? "0.0"}</h5>
-          <p className="text-sm text-gray-600">Ratings</p>
+          <i className="ri-booklet-line text-2xl text-gray-700 mb-1 block"></i>
+          <h5 className="text-lg font-medium text-gray-800">4.8</h5>
+          <p className="text-sm text-gray-500">Avg Rating</p>
         </div>
       </div>
     </div>

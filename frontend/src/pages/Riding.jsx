@@ -1,8 +1,7 @@
-import React from "react";
 import { useContext } from "react";
 import LiveTracking from "../components/LiveTracking";
 import { SocketContext } from "../context/SocketContext";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Added useLocation
 
 const Riding = () => {
   const location = useLocation();
@@ -15,55 +14,65 @@ const Riding = () => {
   });
 
   return (
-    <div className="h-screen">
+    <div className="h-screen w-screen bg-gray-100 flex flex-col">
+      {/* Home Button */}
       <Link
         to="/user/home"
-        className="fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full"
+        className="fixed top-4 right-4 z-10 bg-white shadow-md h-10 w-10 rounded-full flex items-center justify-center"
       >
-        <i className="text-lg font-medium ri-home-5-line"></i>
+        <i className="ri-home-5-line text-xl text-gray-700"></i>
       </Link>
-      <div className="h-1/2">
+
+      {/* Map/LiveTracking */}
+      <div className="flex-1 w-full min-h-[50vh] p-1">
         <LiveTracking />
       </div>
-      <div className="h-1/2 p-4">
+
+      {/* Bottom Panel */}
+      <div className="w-full bg-white p-4 sm:p-6 rounded-t-3xl shadow-lg space-y-6">
+        {/* Driver Info */}
         <div className="flex items-center justify-between">
           <img
-            className="h-12"
+            className="h-14 w-24 object-cover rounded-lg shadow-md"
             src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg"
-            alt=""
+            alt="Vehicle"
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium capitalize">
+            <h2 className="text-lg sm:text-xl font-semibold capitalize text-gray-800">
               {ride?.captain.fullname.firstname}
             </h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">
+            <h4 className="text-xl sm:text-2xl font-bold text-black">
               {ride?.captain.vehicle.plate}
             </h4>
-            <p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
+            <p className="text-sm sm:text-base text-gray-500">
+              Maruti Suzuki Alto
+            </p>
           </div>
         </div>
 
-        <div className="flex gap-2 justify-between flex-col items-center">
-          <div className="w-full mt-5">
-            <div className="flex items-center gap-5 p-3 border-b-2">
-              <i className="text-lg ri-map-pin-2-fill"></i>
-              <div>
-                <h3 className="text-lg font-medium">562/11-A</h3>
-                <p className="text-sm -mt-1 text-gray-600">
-                  {ride?.destination}
-                </p>
-              </div>
+        {/* Ride Details */}
+        <div className="space-y-4">
+          {/* Destination */}
+          <div className="flex items-start gap-4 border-b border-gray-300 pb-3">
+            <i className="ri-map-pin-2-fill text-xl text-red-500 mt-1"></i>
+            <div>
+              <h4 className="text-md font-medium text-gray-800">Destination</h4>
+              <p className="text-sm text-gray-600">{ride?.destination}</p>
             </div>
-            <div className="flex items-center gap-5 p-3">
-              <i className="ri-currency-line"></i>
-              <div>
-                <h3 className="text-lg font-medium">₹{ride?.fare} </h3>
-                <p className="text-sm -mt-1 text-gray-600">Cash</p>
-              </div>
+          </div>
+
+          {/* Fare */}
+          <div className="flex items-start gap-4">
+            <i className="ri-currency-line text-xl text-yellow-600 mt-1"></i>
+            <div>
+              <h4 className="text-md font-medium text-gray-800">Fare</h4>
+              <p className="text-sm text-gray-600">₹{ride?.fare} - Cash</p>
             </div>
           </div>
         </div>
-        <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
+
+        {/* Payment Button */}
+        <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
           Make a Payment
         </button>
       </div>

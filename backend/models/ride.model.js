@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const rideSchema = new mongoose.Schema({
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user", // Reference to the User model
+    ref: "user",
     required: true,
   },
   captain: {
@@ -22,22 +22,22 @@ const rideSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+
   status: {
     type: String,
     enum: ["pending", "accepted", "ongoing", "completed", "cancelled"],
     default: "pending",
   },
+
   duration: {
     type: Number,
-  }, // in Seconds
+  }, // in seconds
+
   distance: {
     type: Number,
   }, // in meters
-  paymentId: {
+
+  paymentID: {
     type: String,
   },
   orderId: {
@@ -46,12 +46,17 @@ const rideSchema = new mongoose.Schema({
   signature: {
     type: String,
   },
+
   otp: {
     type: String,
     select: false,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 86400, // 24 hours in seconds
+  },
 });
 
-const rideModel = mongoose.model("ride", rideSchema);
-export default rideModel;
+module.exports = mongoose.model("ride", rideSchema);

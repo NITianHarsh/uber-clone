@@ -1,17 +1,12 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
+const mongoose = require("mongoose");
 
-connectToDb().catch((err) => console.log(err));
-
-async function connectToDb() {
-  try {
-    await mongoose.connect(process.env.DB_CONNECT);
-    console.log("DB Connected");
-    mongoose.set("strictPopulate", false);
-  } catch (error) {
-    console.log("DB not connected  --> ", error);
-  }
+function connectToDb() {
+  mongoose
+    .connect(process.env.DB_CONNECT)
+    .then(() => {
+      console.log("Connected to DB");
+    })
+    .catch((err) => console.log(err));
 }
 
-export default connectToDb;
+module.exports = connectToDb;
