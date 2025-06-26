@@ -5,7 +5,7 @@ import "remixicon/fonts/remixicon.css";
 import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import CaptainHome from "./pages/CaptainHome";
-import Captainlogin from "./pages/CaptainLogin";
+import CaptainLogin from "./pages/CaptainLogin";
 import { Route, Routes } from "react-router-dom";
 import CaptainSignup from "./pages/CaptainSignup";
 import CaptainRiding from "./pages/CaptainRiding";
@@ -26,7 +26,7 @@ const App = () => {
 
         {/* Captain Routes */}
         <Route path="/captain/riding" element={<CaptainRiding />} />
-        <Route path="/captain/login" element={<Captainlogin />} />
+        <Route path="/captain/login" element={<CaptainLogin />} />
         <Route path="/captain/signup" element={<CaptainSignup />} />
         <Route path="/captain/home"  element={<CaptainProtectWrapper> <CaptainHome /> </CaptainProtectWrapper>} />
 
