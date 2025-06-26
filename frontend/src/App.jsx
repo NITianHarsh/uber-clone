@@ -5,7 +5,7 @@ import "remixicon/fonts/remixicon.css";
 import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import CaptainHome from "./pages/CaptainHome";
-import Captainlogin from "./pages/Captainlogin";
+import Captainlogin from "./pages/CaptainLogin";
 import { Route, Routes } from "react-router-dom";
 import CaptainSignup from "./pages/CaptainSignup";
 import CaptainRiding from "./pages/CaptainRiding";
