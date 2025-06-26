@@ -13,7 +13,12 @@ dotenv.config();
 const app = express();
 connectToDb();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://uber-clone-d4g2.onrender.com",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
