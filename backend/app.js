@@ -6,7 +6,7 @@ const captainRoutes = require("./routes/captain.routes");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const express = require("express");
-const connectToDb = require("./db/db");
+const connectToDb = require("./Db/db");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
