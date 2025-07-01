@@ -47,6 +47,7 @@ const CaptainHome = () => {
   }, []);
 
   socket.on("new-ride", (data) => {
+    console.log("New ride request received by captain :", data);    
     setRide(data);
     setRidePopupPanel(true);
   });
@@ -99,17 +100,24 @@ const CaptainHome = () => {
         >
           <i className="ri-menu-line"></i>
         </button>
-        <img
-          className="w-16"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt="Uber Logo"
-        />
-        <button
-          onClick={handleLogout}
-          className="h-10 w-10 hover:bg-gray-300 transition rounded-full flex items-center justify-center"
-        >
-          <i className="text-xl ri-logout-box-r-line text-gray-700"></i>
-        </button>
+        <div className="h-6 mb-4 text-3xl italic font-rye text-black font-medium cursor-pointer hover:underline">
+          Ryde On
+        </div>
+        <div className="relative group">
+          <button
+            onClick={handleLogout}
+            className="h-10 w-10 hover:bg-green-300 transition rounded-full flex items-center justify-center"
+          >
+            <i className="text-xl ri-logout-box-r-line text-gray-700"></i>
+          </button>
+
+          {/* Tooltip box BELOW the button */}
+          <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+            Logout
+            {/* Tooltip arrow pointing up */}
+            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45 z-0"></div>
+          </div>
+        </div>
       </div>
 
       {/* Map */}

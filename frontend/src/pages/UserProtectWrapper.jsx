@@ -34,7 +34,7 @@ const UserProtectWrapper = ({ children }) => {
   }, [token]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="loader m-[180px] sm:m-[130px]"></div>;
   }
 
   return <>{children}</>;

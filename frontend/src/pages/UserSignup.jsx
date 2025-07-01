@@ -56,11 +56,9 @@ const UserSignup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 py-8">
       <Link to="/">
-        <img
-          className="h-6 mb-4 absolute top-8 left-8"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s"
-          alt="Logo"
-        />
+        <div
+          className="h-6 mb-4 absolute top-8 left-8 text-3xl italic font-rye text-black font-medium cursor-pointer hover:underline"
+        >Ryde On</div>
       </Link>
       <div className="w-full max-w-md bg-white border border-black rounded-2xl p-8 shadow-lg">
         <div className="flex flex-col items-center mb-4">

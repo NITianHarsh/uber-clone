@@ -25,7 +25,7 @@ const VehiclePanel = (props) => {
         />
         <div className="ml-2 w-1/2">
           <h4 className="font-medium text-base">
-            UberGo{" "}
+            Ryde On{" "}
             <span>
               <i className="ri-user-3-fill"></i>{" "}4
             </span>
@@ -79,7 +79,7 @@ const VehiclePanel = (props) => {
         />
         <div className="ml-2 w-1/2">
           <h4 className="font-medium text-base">
-            UberAuto{" "}
+            Ryde on Auto{" "}
             <span>
               <i className="ri-user-3-fill"></i>3
             </span>
