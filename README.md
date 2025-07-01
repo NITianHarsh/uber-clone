@@ -25,7 +25,7 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 - [Overview](#overview)
 - [Getting Started](#getting-started)
@@ -36,7 +36,7 @@
 
 ---
 
-## Overview
+## 📝 Overview
 
 **uber-clone** is a full-stack open-source project that replicates core ride-hailing functionalities, including user authentication, real-time location tracking, and trip management. It provides a scalable foundation for building transportation platforms with a modern, modular architecture.
 
@@ -52,20 +52,51 @@ This project aims to streamline the development of ride-sharing applications. Th
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### Prerequisites
+### ✅ Prerequisites
 
-This project requires the following dependencies:
+Make sure you have the following installed:
 
-- **Programming Language:** JavaScript
-- **Package Manager:** npm
+- **Node.js**
+- **npm**
 
-### Installation
+### 📦 Installation
 
-Build uber-clone from the source and install dependencies:
+1. **Clone the repository**
 
-1. **Clone the repository:**
-
-   ```sh
+   ```bash
    git clone https://github.com/NITianHarsh/uber-clone
+   ```
+
+2. **Navigate to the project directory**
+
+   ```bash
+   cd uber-clone
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+### ▶️ Usage
+
+Run the development server:
+
+```bash
+npm start
+```
+
+### 🧪 Testing
+
+Uber-clone uses a test framework to validate the functionality. Run tests with:
+
+```bash
+npm test
+```
+
+---
+
+⬆ [Return to Top](#uber-clone)
